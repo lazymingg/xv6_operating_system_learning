@@ -1,0 +1,24 @@
+maybe these can help u :D
+
+- xv6 có một kernel duy nhất dùng để phục vụ các tiến trình
+- mỗi tiến trình có một bộ nhớ riêng
+- kernel sẽ cung cấp các dịch vụ của nó thông qua system call
+
+=> các ứng dụng chúng ta lập trình phải gọi systemcall để giao tiếp với kernel
+
+bonus: shell là một ứng dụng cung cấp dịch vụ giao diện dòng lệnh CLI (command line interface)
+tức là giao diện chỉ gõ lệnh để điều khiển á, shell không phải là kernel nó là một ứng dụng nha
+
+Các sysCall mà minh nghĩ là nó quan trọng hoặc khó hiểu
+
+fork() cái này nó tạo một tiến trình y hệt cái hiện tại
+tức là khi gọi cái này nó sẽ tạo một bản copy y hệt chạy song song (không biết cái nào chạy trước cái nào)
+
+nó sẽ trả về PID (processID) để giúp chúng ta quản lý tiến trình con là 0 còn cha là số khác 0
+
+wait() và kill() hai cái này nó hoạt động với nhau kill nó sẽ giết chương trình có pid cụ thể và một mã mình tự truyền vào để biết tại sao nó bị tắt
+wait() đợi kill xong thì nhận lại mã nãy ta dùng để truyền vào kill để xác nhận là đã dừng cái đó nếu không wait thì chương trình vẫn còn đó và gọi nó là zombie process
+
+excec() cái này nói dễ hiểu là gọi một chương trình trong bộ nhớ máy tính và thay thế cho chương trình đang chạy hiện tại thôi 
+
+lười viết tiếp quá =))
