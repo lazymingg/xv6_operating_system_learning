@@ -91,3 +91,10 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+uint64
+sys_hello(void)
+{
+  printf("lazymingg chao cau <3 !!\n");
+  return 0;
+}
