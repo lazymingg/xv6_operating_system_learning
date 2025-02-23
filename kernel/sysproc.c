@@ -12,7 +12,7 @@ sys_exit(void)
   int n;
   argint(0, &n);
   exit(n);
-  return 0;  // not reached
+  return 0; // not reached
 }
 
 uint64
@@ -43,7 +43,7 @@ sys_sbrk(void)
 
   argint(0, &n);
   addr = myproc()->sz;
-  if(growproc(n) < 0)
+  if (growproc(n) < 0)
     return -1;
   return addr;
 }
@@ -55,12 +55,14 @@ sys_sleep(void)
   uint ticks0;
 
   argint(0, &n);
-  if(n < 0)
+  if (n < 0)
     n = 0;
   acquire(&tickslock);
   ticks0 = ticks;
-  while(ticks - ticks0 < n){
-    if(killed(myproc())){
+  while (ticks - ticks0 < n)
+  {
+    if (killed(myproc()))
+    {
       release(&tickslock);
       return -1;
     }
@@ -97,4 +99,35 @@ sys_hello(void)
 {
   printf("lazymingg chao cau <3 !!\n");
   return 0;
+}
+
+/*
+ * sys_trace(void)
+ * -----------------
+ * Implements the `trace` system call, allowing a process to enable system call tracing.
+ * 
+ * - Retrieves the trace mask (integer) from the system call argument.
+ * - If the mask is negative, returns `1` to indicate failure.
+ * - Updates the `trace_mask` field in the process's `struct proc` to enable tracing.
+ * - Returns `0` on success.
+ * 
+ * Parameters:
+ * - `mask` (int): A bitmask specifying which system calls should be traced.
+ * 
+ * Return values:
+ * - `0` if tracing is successfully enabled.
+ * - `1` if the provided mask is invalid (negative value).
+ */
+
+ uint64 sys_trace(void) {
+  int mask;
+  argint(0, &mask);  // Retrieve the system call argument trace(mask)
+
+  // Check for invalid (negative) mask values
+  if (mask < 0)
+      return 1;  // Return 1 to indicate failure
+
+  // Update the process's trace_mask from in proc struct
+  myproc()->trace_mask = mask;
+  return 0;  // Return 0 to indicate success
 }

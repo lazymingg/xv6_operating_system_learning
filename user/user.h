@@ -1,5 +1,10 @@
 struct stat;
-typedef unsigned int   uint;
+
+//include tyde for all type (important)
+// omg this make me 2 hours to find out
+#include "../kernel/types.h"
+
+
 // system calls
 int fork(void);
 int exit(int) __attribute__((noreturn));
@@ -22,7 +27,9 @@ int getpid(void);
 char* sbrk(int);
 int sleep(int);
 int uptime(void);
+//what we added
 uint hello(void);
+uint64 trace(int);
 
 // ulib.c
 int stat(const char*, struct stat*);
