@@ -5,6 +5,11 @@
 #include "memlayout.h"
 #include "spinlock.h"
 #include "proc.h"
+#include "Sysinfo.h"
+#include "kalloc.c"
+#include "file.c"
+#include "proc.c"
+
 
 uint64
 sys_exit(void)
@@ -130,4 +135,17 @@ sys_hello(void)
   // Update the process's trace_mask from in proc struct
   myproc()->trace_mask = mask;
   return 0;  // Return 0 to indicate success
+}
+
+
+
+
+uint64 sys_sysinfo(void)
+{
+  struct Sysinfo si;
+  si.freemem = free_mem_size();
+  si.nproc = nproc_count();
+  si.nopenfiles = count_open_file();
+  argaddr(0, (uint64 *)&si);
+  return 0;
 }

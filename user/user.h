@@ -30,6 +30,7 @@ int uptime(void);
 //what we added
 uint hello(void);
 uint64 trace(int);
+uint64 sysinfo(struct Sysinfo*);
 
 // ulib.c
 int stat(const char*, struct stat*);
