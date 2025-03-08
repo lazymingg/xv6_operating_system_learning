@@ -143,9 +143,14 @@ sys_hello(void)
 uint64 sys_sysinfo(void)
 {
   struct Sysinfo si;
+  uint64 addr;
+  argaddr(0, &addr);
+
   si.freemem = free_mem_size();
   si.nproc = nproc_count();
   si.nopenfiles = count_open_file();
-  argaddr(0, (uint64 *)&si);
+
+  if (copyout(myproc()->pagetable, addr, (char *)&si, sizeof(si)) < 0)
+    return 1;
   return 0;
 }

@@ -1,8 +1,16 @@
-struct stat;
-
 //include tyde for all type (important)
 // omg this make me 2 hours to find out
 #include "../kernel/types.h"
+
+
+struct stat;
+//what we added
+struct Sysinfo {
+    uint64 freemem;
+    uint64 nproc;
+    uint64 nopenfiles;
+};
+
 
 
 // system calls
