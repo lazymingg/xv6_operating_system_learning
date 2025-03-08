@@ -8,8 +8,8 @@ int main(int argc, char *argv[])
         printf("sysinfo failed\n");
         exit(1);
     }
-    printf("Free memory: %d\n", info.freemem);
-    printf("Number of processes: %d\n", info.nproc);
-    printf("Number of open files: %d\n", info.nopenfiles);
+    printf("Free memory: %ld\n", info.freemem);
+    printf("Number of processes: %ld\n", info.nproc);
+    printf("Number of open files: %ld\n", info.nopenfiles);
     exit(0);
 }

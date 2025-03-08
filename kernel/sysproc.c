@@ -6,9 +6,6 @@
 #include "spinlock.h"
 #include "proc.h"
 #include "Sysinfo.h"
-#include "kalloc.c"
-#include "file.c"
-#include "proc.c"
 
 
 uint64
@@ -148,7 +145,7 @@ uint64 sys_sysinfo(void)
 
   si.freemem = free_mem_size();
   si.nproc = nproc_count();
-  si.nopenfiles = count_open_file();
+  si.nopenfiles = open_file_count();
 
   if (copyout(myproc()->pagetable, addr, (char *)&si, sizeof(si)) < 0)
     return 1;

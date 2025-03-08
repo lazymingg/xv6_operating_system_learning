@@ -713,6 +713,5 @@ nproc_count(void) {
     }
     release(&current_proc->lock);
   }
-  uint count = 0;
   return count;
 }
