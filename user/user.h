@@ -39,6 +39,8 @@ int uptime(void);
 uint hello(void);
 uint64 trace(int);
 uint64 sysinfo(struct Sysinfo*);
+uint64 pgaccess(void *start_va, int num_pages, uint64 *bitmap);
+
 
 // ulib.c
 int stat(const char*, struct stat*);

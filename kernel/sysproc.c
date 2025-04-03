@@ -151,3 +151,49 @@ uint64 sys_sysinfo(void)
     return 1;
   return 0;
 }
+
+uint64 sys_pgaccess(void)
+{
+  uint64 start_va;
+  int num_pages;
+  uint64 bitmap;
+  uint64 result_bit_mask = 0;
+
+  argaddr(0, &start_va);
+  argint(1, &num_pages);
+  argaddr(2, &bitmap);
+
+  struct proc *p = myproc();
+
+  if (num_pages > 64)
+  {
+    return -1;
+  }
+  if (num_pages < 0)
+  {
+    return -1;
+  }
+
+    for (int i = 0; i < num_pages; i++)
+    {
+      uint64 va = start_va + i * PGSIZE;
+      pte_t *pte = walk(p->pagetable, va, 0);
+      if (pte == 0)
+        return -1;
+      if (*pte & PTE_V)
+      {
+        if (*pte & PTE_A)
+        {
+          result_bit_mask |= (1UL << i);
+        }
+        //clear the accessed bit
+        *pte &= ~PTE_A;
+      }
+    }
+
+  if (copyout(p->pagetable, bitmap, (char *)&result_bit_mask, sizeof(result_bit_mask)) < 0)
+  {
+    return -1;
+  }
+  return 0;
+}

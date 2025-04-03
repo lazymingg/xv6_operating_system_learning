@@ -96,7 +96,7 @@ uint64 free_mem_size(void)
   }
   release(&kmem.lock);
 
-  return free_size;
+return free_size;
 }
 
 
