@@ -145,7 +145,8 @@ found:
   memset(&p->context, 0, sizeof(p->context));
   p->context.ra = (uint64)forkret;
   p->context.sp = p->kstack + PGSIZE;
-
+  //what we added
+  p->trace_mask = 0;
   return p;
 }
 
@@ -169,6 +170,7 @@ freeproc(struct proc *p)
   p->killed = 0;
   p->xstate = 0;
   p->state = UNUSED;
+  p->trace_mask = 0;
 }
 
 // Create a user page table for a given process, with no user memory,
@@ -324,7 +326,6 @@ fork(void)
 
   // the child holds trace mask of the parent
   np->trace_mask = p->trace_mask;
-
   return pid;
 }
 
@@ -695,4 +696,23 @@ procdump(void)
     printf("%d %s %s", p->pid, state, p->name);
     printf("\n");
   }
+}
+
+
+uint64
+nproc_count(void) {
+  struct proc *current_proc;
+  uint64 count = 0;
+
+  for (int i = 0; i < NPROC; i++)
+  {
+    current_proc = &proc[i];
+    acquire(&current_proc->lock);
+    if (current_proc->state != UNUSED)
+    {
+      count++;
+    }
+    release(&current_proc->lock);
+  }
+  return count;
 }

@@ -23,3 +23,5 @@
 //what we added
 #define SYS_hello  22
 #define SYS_trace  23
+#define SYS_sysinfo 24
+#define SYS_pgaccess 25

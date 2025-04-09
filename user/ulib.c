@@ -2,6 +2,10 @@
 #include "kernel/stat.h"
 #include "kernel/fcntl.h"
 #include "user/user.h"
+#ifdef LAB_PGTBL
+#include "kernel/riscv.h"
+#include "kernel/memlayout.h"
+#endif
 
 //
 // wrapper so that it's OK if main() does not call exit().
@@ -145,3 +149,12 @@ memcpy(void *dst, const void *src, uint n)
 {
   return memmove(dst, src, n);
 }
+
+#ifdef LAB_PGTBL
+int
+ugetpid(void)
+{
+  struct usyscall *u = (struct usyscall *)USYSCALL;
+  return u->pid;
+}
+#endif

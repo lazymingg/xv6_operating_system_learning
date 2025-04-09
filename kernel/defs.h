@@ -33,6 +33,8 @@ void            fileinit(void);
 int             fileread(struct file*, uint64, int n);
 int             filestat(struct file*, uint64 addr);
 int             filewrite(struct file*, uint64, int n);
+//what we added
+uint64             open_file_count(void);
 
 // fs.c
 void            fsinit(int);
@@ -63,6 +65,8 @@ void            ramdiskrw(struct buf*);
 void*           kalloc(void);
 void            kfree(void *);
 void            kinit(void);
+//what we added
+uint64          free_mem_size(void);
 
 // log.c
 void            initlog(int, struct superblock*);
@@ -106,6 +110,8 @@ void            yield(void);
 int             either_copyout(int user_dst, uint64 dst, void *src, uint64 len);
 int             either_copyin(void *dst, int user_src, uint64 src, uint64 len);
 void            procdump(void);
+//what we added
+uint64             nproc_count(void);
 
 // swtch.S
 void            swtch(struct context*, struct context*);

@@ -1,8 +1,16 @@
-struct stat;
-
 //include tyde for all type (important)
 // omg this make me 2 hours to find out
 #include "../kernel/types.h"
+
+
+struct stat;
+//what we added
+struct Sysinfo {
+    uint64 freemem;
+    uint64 nproc;
+    uint64 nopenfiles;
+};
+
 
 
 // system calls
@@ -30,6 +38,9 @@ int uptime(void);
 //what we added
 uint hello(void);
 uint64 trace(int);
+uint64 sysinfo(struct Sysinfo*);
+uint64 pgaccess(void *start_va, int num_pages, uint64 *bitmap);
+
 
 // ulib.c
 int stat(const char*, struct stat*);
@@ -45,6 +56,10 @@ void* memset(void*, int, uint);
 int atoi(const char*);
 int memcmp(const void *, const void *, uint);
 void *memcpy(void *, const void *, uint);
+#ifdef LAB_PGTBL
+// usyscall region
+int ugetpid(void);
+#endif
 
 // umalloc.c
 void* malloc(uint);

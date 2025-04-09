@@ -87,6 +87,19 @@ exec(char *path, char **argv)
   sp = sz;
   stackbase = sp - USERSTACK*PGSIZE;
 
+  // Check if the user want to print the page table
+  // Kiểm tra flag -v
+  int isprint = 0;
+  for (i = 0; argv[i]; i++) {
+    if (strncmp(argv[i], "-v", 3) == 0) {
+      isprint = 1;
+      // Dời các phần tử phía sau lên để loại bỏ argv[i]
+      for (int j = i; argv[j]; j++) {
+        argv[j] = argv[j + 1];
+      }
+      i--; // kiểm lại vị trí mới sau khi dời
+    }
+  }
   // Push argument strings, prepare rest of stack in ustack.
   for(argc = 0; argv[argc]; argc++) {
     if(argc >= MAXARG)
@@ -127,7 +140,8 @@ exec(char *path, char **argv)
   p->trapframe->epc = elf.entry;  // initial program counter = main
   p->trapframe->sp = sp; // initial stack pointer
   proc_freepagetable(oldpagetable, oldsz);
-  if(p->pid == 1) 
+  
+  if(isprint) 
     vmprint(p->pagetable, 0);
   return argc; // this ends up in a0, the first argument to main(argc, argv)
 
